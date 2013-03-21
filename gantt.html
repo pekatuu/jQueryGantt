@@ -5,26 +5,26 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>Teamwork</title>
 
-  <link rel=stylesheet href="platform.css" type="text/css">
-  <link rel=stylesheet href="libs/dateField/jquery.dateField.css" type="text/css">
-  <link rel=stylesheet href="gantt.css" type="text/css">
+  <link rel=stylesheet href="../jQueryGantt/platform.css" type="text/css">
+  <link rel=stylesheet href="../jQueryGantt/libs/dateField/jquery.dateField.css" type="text/css">
+  <link rel=stylesheet href="../jQueryGantt/gantt.css" type="text/css">
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-  <script src="libs/jquery.livequery.min.js"></script>
-  <script src="libs/jquery.timers.js"></script>
-  <script src="libs/platform.js"></script>
-  <script src="libs/date.js"></script>
-  <script src="libs/i18nJs.js"></script>
-  <script src="libs/dateField/jquery.dateField.js"></script>
-  <script src="libs/JST/jquery.JST.js"></script>
+  <script src="../jQueryGantt/libs/jquery.livequery.min.js"></script>
+  <script src="../jQueryGantt/libs/jquery.timers.js"></script>
+  <script src="../jQueryGantt/libs/platform.js"></script>
+  <script src="../jQueryGantt/libs/date.js"></script>
+  <script src="../jQueryGantt/libs/i18nJs.js"></script>
+  <script src="../jQueryGantt/libs/dateField/jquery.dateField.js"></script>
+  <script src="../jQueryGantt/libs/JST/jquery.JST.js"></script>
 
-  <script src="ganttUtilities.js"></script>
-  <script src="ganttTask.js"></script>
-  <script src="ganttDrawer.js"></script>
-  <script src="ganttGridEditor.js"></script>
-  <script src="ganttMaster.js"></script>
+  <script src="../jQueryGantt/ganttUtilities.js"></script>
+  <script src="../jQueryGantt/ganttTask.js"></script>
+  <script src="../jQueryGantt/ganttDrawer.js"></script>
+  <script src="../jQueryGantt/ganttGridEditor.js"></script>
+  <script src="../jQueryGantt/ganttMaster.js"></script>
 
 </head>
 <body style="background-color: #fff;">
@@ -89,7 +89,7 @@ $(function() {
           .append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
           .append("<button onclick='openResourceEditor();' class='button'>edit resources</button>")
           .append("<button onclick='getFile();' class='button'>export</button>");
-  $(".ganttButtonBar h1").html("<img src='twGanttSmall.png'>");
+  $(".ganttButtonBar h1").html("<img src='../jQueryGantt/twGanttSmall.png'>");
   $(".ganttButtonBar div").addClass('buttons');
   //overwrite with localized ones
   loadI18n();
@@ -124,7 +124,7 @@ function loadGanttFromServer(taskId, callback) {
   var prof = new Profiler("loadServerSide");
   prof.reset();
 
-  $.getJSON("load", {CM:"LOADPROJECT",taskId:taskId}, function(response) {
+  $.getJSON("<%= @project.id %>", {CM:"LOADPROJECT"}, function(response) {
     //console.debug(response);
     if (response.ok) {
       prof.stop();
@@ -157,10 +157,10 @@ function saveGanttOnServer() {
     }
   }
 
-  $.ajax("save", {
+  $.ajax("<%= @project.id %>", {
     dataType:"json",
     data: {CM:"SVPROJECT",prj:JSON.stringify(prj)},
-    type:"POST",
+    type:"PUT",
 
     success: function(response) {
       if (response.ok) {
