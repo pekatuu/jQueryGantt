@@ -911,6 +911,25 @@ Task.prototype.moveDown = function() {
   return ret;
 };
 
+Task.prototype.getProgressColor = function(){
+    var self = this;
+
+    if (self.progress >= self.workload){
+	return 'DeepSkyBlue'
+    }
+
+    var relativeProgMillis = (self.end - self.start) * (self.progress / self.workload);
+    var absoluteProgMillis = self.start + relativeProgMillis;
+    var gapDays = (absoluteProgMillis - (new Date()).getTime()) / 1000 / 3600 / 24;
+
+    if (gapDays < -1) {
+	return 'red';
+    }else if(gapDays < 0){
+	return 'orange';
+    }
+	
+    return 'rgb(153,255,51);'
+}
 
 //<%------------------------------------------------------------------------  LINKS OBJECT ---------------------------------------------------------------%>
 function Link(taskFrom, taskTo, lagInWorkingDays) {
